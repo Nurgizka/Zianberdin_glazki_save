@@ -1,0 +1,21 @@
+﻿<Window x:Class="Zianberdin_glazki_save.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Zianberdin_glazki_save"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800" Icon="/Res/Глазки-save.png" FontFamily="Century Gothic">
+<Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="90"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="60"/>
+        </Grid.RowDefinitions>
+        <Image Source="/Res/Глазки-save.ico" HorizontalAlignment="Left"/>
+        <TextBlock Text="Глазки" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30"/>
+        <Frame Grid.Row="1" Name="MainFrame" ContentRendered="MainFrame_ContentRendered" NavigationUIVisibility="Hidden"></Frame>
+        <Button Content="Back" Name="BtnBack" Width="175" Height="30" HorizontalAlignment="Right" Margin="5" Click="BtnBack_Click"></Button>
+    
+    </Grid>
+</Window>
