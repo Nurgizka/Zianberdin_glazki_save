@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:Zianberdin_glazki_save"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="ProductEditPage1">
+      Title="ProductEditPage1" FontFamily="Century Gothic">
 
     <Grid>
         <TextBlock Text="Hello!" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30"/>
