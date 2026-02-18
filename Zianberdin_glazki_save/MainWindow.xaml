@@ -5,14 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Zianberdin_glazki_save"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" Icon="/Res/Глазки-save.png" FontFamily="Century Gothic">
+        Title="Глазки-save" Height="700" Width="1000" Icon="/Res/Глазки-save.png" FontFamily="Century Gothic">
 <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="90"/>
+            <RowDefinition Height="100"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="60"/>
+            <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
-        <Image Source="/Res/Глазки-save.ico" HorizontalAlignment="Left"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Image Source="/Res/Глазки-save.ico" HorizontalAlignment="Left" VerticalAlignment="Center"/>
         <TextBlock Text="Глазки" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30"/>
         <Frame Grid.Row="1" Name="MainFrame" ContentRendered="MainFrame_ContentRendered" NavigationUIVisibility="Hidden"></Frame>
         <Button Content="Back" Name="BtnBack" Width="175" Height="30" HorizontalAlignment="Right" Margin="5" Click="BtnBack_Click"></Button>
