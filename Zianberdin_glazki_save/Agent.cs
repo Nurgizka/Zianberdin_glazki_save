@@ -69,7 +69,7 @@ namespace Zianberdin_glazki_save
         {
             get
             {
-                if (Discount >= 10)
+                if (Discount >= 25)
                     return "LightGreen";
                 else
                     return "White";
