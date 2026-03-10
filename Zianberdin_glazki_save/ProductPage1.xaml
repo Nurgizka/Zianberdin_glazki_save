@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Zianberdin_glazki_save"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="1000"
+      d:DesignHeight="700" d:DesignWidth="1000"
       Title="ProductPage1" FontFamily="Century Gothic">
 
     <Grid>
@@ -13,6 +13,7 @@
             <RowDefinition Height="50"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="70"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
@@ -38,7 +39,7 @@
             <TextBlock>ОАО</TextBlock>
             <TextBlock>ПАО</TextBlock>
         </ComboBox>
-        <ListView Name="ServiceListView" Grid.ColumnSpan="3" Grid.Row="1" >
+        <ListView Name="ServiceListView" Grid.ColumnSpan="3" Grid.Row="1"  >
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid Background="{Binding FonStyle}">
@@ -83,10 +84,14 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <StackPanel Grid.Row="2" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10">
+        <StackPanel Grid.Row="2" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
             <Button Name="PrevButton" Content="&lt;" Click="PrevButton_Click" Width="30" Margin="3"/>
             <StackPanel Name="PageButtonsPanel" Orientation="Horizontal"/>
-            <Button Name="NextButton" Content="&gt;" Click="NextButton_Click" Width="30" Margin="3"/>
+            <Button Name="NextButton" Content=">" Click="NextButton_Click" Width="30" Margin="3"/>
         </StackPanel>
+        <Button Content="Добавить агента" Name="AddAgentBtn" Click="AddAgentBtn_Click" 
+            Width="160" Height="35" Margin="5" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="3"/>
+        <Button Content="Редактировать" Name="EditAgentBtn" Click="EditAgentBtn_Click" 
+            Width="150" Height="35" Margin="5" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" Grid.Row="3"/>
     </Grid>
 </Page>

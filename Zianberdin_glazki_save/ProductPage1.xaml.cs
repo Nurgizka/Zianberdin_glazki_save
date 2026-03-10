@@ -1,125 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
+using Zianberdin_glazki_save;
 
 namespace Zianberdin_glazki_save
 {
-    /// <summary>
-    /// Логика взаимодействия для ProductPage1.xaml
-    /// </summary>
     public partial class ProductPage1 : Page
     {
-        public ProductPage1()
-        {
-            InitializeComponent();
-            var currentProducts = ZianberdinGlazkiSaveEntities.GetContext().Agent.ToList();
-            ServiceListView.ItemsSource = currentProducts;
-            ComboType.SelectedIndex = 0;
-            LoadData();
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            Manager.MainFrame.Navigate(new ProductEditPage1());
-        }
-
-        private void UpdateAgents()
-        {
-            LoadData();
-            var context = ZianberdinGlazkiSaveEntities.GetContext();
-            var currentAgents = context.Agent.ToList();
-
-            
-            if (!string.IsNullOrWhiteSpace(TBoxSearch.Text))
-            {
-                var searchText = TBoxSearch.Text.ToLower();
-
-                var digitsOnlySearch = new string(searchText.Where(char.IsDigit).ToArray());
-
-                currentAgents = currentAgents.Where(a =>
-                {
-                    
-                    if (a.Title != null && a.Title.ToLower().Contains(searchText))
-                        return true;
-
-                    
-                    if (a.Email != null && a.Email.ToLower().Contains(searchText))
-                        return true;
-
-                    
-                    if (a.Phone != null)
-                    {
-                        
-                        if (a.Phone.Contains(searchText))
-                            return true;
-                        if (!string.IsNullOrEmpty(digitsOnlySearch))
-                        {
-                            var cleanPhone = new string(a.Phone.Where(char.IsDigit).ToArray());
-
-                            if (cleanPhone.Contains(digitsOnlySearch))
-                                return true;
-                        }
-                    }
-
-                    return false;
-                }).ToList();
-            }
-
-            
-            if (ComboType.SelectedIndex > 0) 
-            {
-                var selectedType = (ComboType.SelectedItem as TextBlock)?.Text;
-                if (!string.IsNullOrEmpty(selectedType))
-                {
-                    currentAgents = currentAgents.Where(a => a.AgentTypeName == selectedType).ToList();
-                }
-            }
-
-            
-            switch (ComboSorting.SelectedIndex)
-            {
-                case 1: 
-                    currentAgents = currentAgents.OrderBy(a => a.Title).ToList();
-                    break;
-                case 2: 
-                    currentAgents = currentAgents.OrderByDescending(a => a.Title).ToList();
-                    break;
-                case 3: 
-                    currentAgents = currentAgents.OrderBy(a => a.Discount).ToList();
-                    break;
-                case 4: 
-                    currentAgents = currentAgents.OrderByDescending(a => a.Discount).ToList();
-                    break;
-                case 5: 
-                    currentAgents = currentAgents.OrderBy(a => a.Priority).ToList();
-                    break;
-                case 6: 
-                    currentAgents = currentAgents.OrderByDescending(a => a.Priority).ToList();
-                    break;
-                    
-            }
-
-
-            
-            ServiceListView.ItemsSource = currentAgents;
-        }
         int _currentPage = 1;
         int _maxPage = 0;
         int _pageSize = 10;
         List<Agent> _allAgents;
 
-        void LoadData()
+        public ProductPage1()
+        {
+            InitializeComponent();
+            ComboType.SelectedIndex = 0;
+            LoadData();
+        }
+        public void RefreshData()
+        {
+            _allAgents = ZianberdinGlazkiSaveEntities.GetContext().Agent.ToList();
+            _maxPage = (int)Math.Ceiling(_allAgents.Count / (double)_pageSize);
+            _currentPage = 1;
+            UpdatePage();
+        }
+
+        public void LoadData()
         {
             _allAgents = ZianberdinGlazkiSaveEntities.GetContext().Agent.ToList();
             _maxPage = (int)Math.Ceiling(_allAgents.Count / (double)_pageSize);
@@ -128,7 +39,6 @@ namespace Zianberdin_glazki_save
 
         void UpdatePage()
         {
-            //показ текущ стр
             int skip = (_currentPage - 1) * _pageSize;
             ServiceListView.ItemsSource = _allAgents.Skip(skip).Take(_pageSize).ToList();
 
@@ -140,7 +50,6 @@ namespace Zianberdin_glazki_save
                     btn.Background = Brushes.LightBlue;
                 int pageNum = i;
                 btn.Click += (s, e) => { _currentPage = pageNum; UpdatePage(); };
-
                 PageButtonsPanel.Children.Add(btn);
             }
 
@@ -150,34 +59,85 @@ namespace Zianberdin_glazki_save
 
         private void PrevButton_Click(object sender, RoutedEventArgs e)
         {
-            if (_currentPage > 1)
-            {
-                _currentPage--;
-                UpdatePage();
-            }
+            _currentPage--;
+            UpdatePage();
         }
 
         private void NextButton_Click(object sender, RoutedEventArgs e)
         {
-            if (_currentPage < _maxPage)
+            _currentPage++;
+            UpdatePage();
+        }
+
+        public void UpdateAgents()
+        {
+            LoadData();
+            var currentAgents = _allAgents.ToList();
+
+            // Поиск
+            if (!string.IsNullOrWhiteSpace(TBoxSearch.Text))
             {
-                _currentPage++;
-                UpdatePage();
+                var searchText = TBoxSearch.Text.ToLower();
+                var digitsOnlySearch = new string(searchText.Where(char.IsDigit).ToArray());
+
+                currentAgents = currentAgents.Where(a =>
+                {
+                    if (a.Title != null && a.Title.ToLower().Contains(searchText))
+                        return true;
+                    if (a.Email != null && a.Email.ToLower().Contains(searchText))
+                        return true;
+                    if (a.Phone != null)
+                    {
+                        if (a.Phone.ToLower().Contains(searchText))
+                            return true;
+                        if (!string.IsNullOrEmpty(digitsOnlySearch))
+                        {
+                            var cleanPhone = new string(a.Phone.Where(char.IsDigit).ToArray());
+                            if (cleanPhone.Contains(digitsOnlySearch))
+                                return true;
+                        }
+                    }
+                    return false;
+                }).ToList();
             }
+
+            // Фильтр по типу
+            if (ComboType.SelectedIndex > 0)
+            {
+                var selectedType = (ComboType.SelectedItem as TextBlock)?.Text;
+                if (!string.IsNullOrEmpty(selectedType))
+                    currentAgents = currentAgents.Where(a => a.AgentTypeName == selectedType).ToList();
+            }
+
+            // Сортировка
+            switch (ComboSorting.SelectedIndex)
+            {
+                case 1: currentAgents = currentAgents.OrderBy(a => a.Title).ToList(); break;
+                case 2: currentAgents = currentAgents.OrderByDescending(a => a.Title).ToList(); break;
+                case 3: currentAgents = currentAgents.OrderBy(a => a.Discount).ToList(); break;
+                case 4: currentAgents = currentAgents.OrderByDescending(a => a.Discount).ToList(); break;
+                case 5: currentAgents = currentAgents.OrderBy(a => a.Priority).ToList(); break;
+                case 6: currentAgents = currentAgents.OrderByDescending(a => a.Priority).ToList(); break;
+            }
+
+            ServiceListView.ItemsSource = currentAgents;
         }
 
-        private void TBoxSearch_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            UpdateAgents();
-        }
+        private void TBoxSearch_TextChanged(object sender, TextChangedEventArgs e) => UpdateAgents();
+        private void ComboType_SelectionChanged(object sender, SelectionChangedEventArgs e) => UpdateAgents();
+        private void ComboSorting_SelectionChanged(object sender, SelectionChangedEventArgs e) => UpdateAgents();
+        private void AddAgentBtn_Click(object sender, RoutedEventArgs e) => Manager.MainFrame.Navigate(new VozmiTelefon());
 
-        private void ComboType_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void EditAgentBtn_Click(object sender, RoutedEventArgs e)
         {
-            UpdateAgents();
+            if (ServiceListView.SelectedItem is Agent selectedAgent)
+                Manager.MainFrame.Navigate(new VozmiTelefon(selectedAgent));
+            else
+                MessageBox.Show("Выберите агента для редактирования");
         }
-
-        private void ComboSorting_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void Page_Loaded(object sender, RoutedEventArgs e)
         {
+            LoadData();
             UpdateAgents();
         }
     }

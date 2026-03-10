@@ -22,6 +22,10 @@ namespace Zianberdin_glazki_save
     {
         public ProductEditPage1()
         {
+        }
+
+        public ProductEditPage1(Agent selectedAgent)
+        {
             InitializeComponent();
         }
     }

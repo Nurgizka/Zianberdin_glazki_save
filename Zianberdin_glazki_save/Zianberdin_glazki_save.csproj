@@ -103,6 +103,9 @@
     <Compile Include="Supplier.cs">
       <DependentUpon>ZianberdinModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="VozmiTelefon.xaml.cs">
+      <DependentUpon>VozmiTelefon.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ZianberdinModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -135,6 +138,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ProductPage1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="VozmiTelefon.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
