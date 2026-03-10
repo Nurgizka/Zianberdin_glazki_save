@@ -15,20 +15,17 @@ namespace Zianberdin_glazki_save
     public partial class ProductSale
     {
         public int ID { get; set; }
-        public int AgentID { get; set; }
         public int ProductID { get; set; }
+        public int AgentID { get; set; }
         public System.DateTime SaleDate { get; set; }
         public int ProductCount { get; set; }
-
         public decimal Stoimost
         {
             get
-
             {
                 return ProductCount * Product.MinCostForAgent;
             }
         }
-    
         public virtual Agent Agent { get; set; }
         public virtual Product Product { get; set; }
     }

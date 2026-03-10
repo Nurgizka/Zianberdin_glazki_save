@@ -11,7 +11,7 @@ namespace Zianberdin_glazki_save
 {
     using System;
     using System.Collections.Generic;
-
+    
     public partial class Agent
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,25 +21,42 @@ namespace Zianberdin_glazki_save
             this.ProductSale = new HashSet<ProductSale>();
             this.Shop = new HashSet<Shop>();
         }
-
+    
         public int ID { get; set; }
-
+        public string Title { get; set; }
+        public int AgentTypeID { get; set; }
+        public string Address { get; set; }
+        public string INN { get; set; }
+        public string KPP { get; set; }
+        public string DirectorName { get; set; }
+        public string Phone { get; set; }
+        public string Email { get; set; }
+        public string Logo { get; set; }
+        public int Priority { get; set; }
+        public string AgentTypeName
+        {
+            get
+            {
+                return AgentType.Title;
+            }
+        }
         public int SalesForYear
         {
             get
             {
                 int sales = 0;
-                foreach (ProductSale productsale in ProductSale)
+                foreach (ProductSale productSale in ProductSale)
                 {
-                    TimeSpan differenceWithoutTime = DateTime.Today.Date - productsale.SaleDate.Date;
-                    if((int)differenceWithoutTime.TotalDays <= 365)
-                    sales += productsale.ProductCount;
+                    TimeSpan differenceWithoutTime = DateTime.Today.Date - productSale.SaleDate.Date;
+                    if ((int)differenceWithoutTime.TotalDays <= 365)
+                        sales += productSale.ProductCount;
                 }
                 return sales;
             }
         }
         public decimal Sales
-        { get
+        {
+            get
             {
                 decimal s = 0;
                 foreach (ProductSale p in ProductSale)
@@ -49,9 +66,9 @@ namespace Zianberdin_glazki_save
                 return s;
             }
         }
-
         public int Discount
-        { get
+        {
+            get
             {
                 if (this.Sales >= 500000)
                     return 25;
@@ -64,36 +81,33 @@ namespace Zianberdin_glazki_save
                 return 0;
             }
         }
-
         public string FonStyle
         {
             get
             {
-                if (Discount >= 25)
+                if (Discount >= 20)
                     return "LightGreen";
                 else
                     return "White";
             }
         }
-        public int AgentTypeID { get; set; }
-        public string AgentTypeName
+
+        public string currentnumber
         {
             get
             {
-                return AgentType.Title;
+                string CurrentPhone = "+";
+                for (int i = 0; i < Phone.Length; i++)
+                {
+                    if ((this.Phone[i] == '0') || (this.Phone[i] == '1') || (this.Phone[i] == '2') ||
+                        (this.Phone[i] == '3') || (this.Phone[i] == '4') || (this.Phone[i] == '5') ||
+                        (this.Phone[i] == '6') || (this.Phone[i] == '7') || (this.Phone[i] == '8') ||
+                        (this.Phone[i] == '9'))
+                        CurrentPhone += this.Phone[i].ToString();
+                }
+                return CurrentPhone;
             }
         }
-
-        public string Title { get; set; }
-        public string Email { get; set; }
-        public string Phone { get; set; }
-        public string Logo { get; set; }
-        public string Address { get; set; }
-        public int Priority { get; set; }
-        public string DirectorName { get; set; }
-        public string INN { get; set; }
-        public string KPP { get; set; }
-    
         public virtual AgentType AgentType { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AgentPriorityHistory> AgentPriorityHistory { get; set; }

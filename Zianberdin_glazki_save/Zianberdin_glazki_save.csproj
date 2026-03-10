@@ -164,6 +164,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="App.Config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -176,9 +177,6 @@
     <None Include="ZianberdinModel.edmx.diagram">
       <DependentUpon>ZianberdinModel.edmx</DependentUpon>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Res\Глазки-save.ico" />
@@ -318,19 +316,21 @@
     <Resource Include="agents\agent_98.png" />
     <Resource Include="agents\agent_99.png" />
     <Resource Include="Res\picture.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="ZianberdinModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ZianberdinModel.Context.cs</LastGenOutput>
       <DependentUpon>ZianberdinModel.edmx</DependentUpon>
+      <LastGenOutput>ZianberdinModel.Context.cs</LastGenOutput>
     </Content>
     <Content Include="ZianberdinModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>ZianberdinModel.edmx</DependentUpon>
       <LastGenOutput>ZianberdinModel.cs</LastGenOutput>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

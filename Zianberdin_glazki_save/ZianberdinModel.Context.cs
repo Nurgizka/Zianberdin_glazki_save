@@ -13,21 +13,21 @@ namespace Zianberdin_glazki_save
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class Zianberdin_saveEntities : DbContext
+    public partial class ZianberdinGlazkiSaveEntities : DbContext
     {
-        private static Zianberdin_saveEntities _context;
-
-        public static Zianberdin_saveEntities GetContext()
+        public ZianberdinGlazkiSaveEntities()
+            : base("name=ZianberdinGlazkiSaveEntities")
         {
-            if(_context == null)
-                _context = new Zianberdin_saveEntities();
+        }
+        private static ZianberdinGlazkiSaveEntities _context;
+        public static ZianberdinGlazkiSaveEntities GetContext()
+        {
+            if (_context == null)
+                _context = new ZianberdinGlazkiSaveEntities();
+
             return _context;
         }
-        public Zianberdin_saveEntities()
-            : base("name=Zianberdin_saveEntities")
-        {
-        }
-    
+        
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();

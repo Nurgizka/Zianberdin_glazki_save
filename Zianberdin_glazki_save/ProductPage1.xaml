@@ -12,6 +12,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="50"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
@@ -82,5 +83,10 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        <StackPanel Grid.Row="2" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10">
+            <Button Name="PrevButton" Content="&lt;" Click="PrevButton_Click" Width="30" Margin="3"/>
+            <StackPanel Name="PageButtonsPanel" Orientation="Horizontal"/>
+            <Button Name="NextButton" Content="&gt;" Click="NextButton_Click" Width="30" Margin="3"/>
+        </StackPanel>
     </Grid>
 </Page>

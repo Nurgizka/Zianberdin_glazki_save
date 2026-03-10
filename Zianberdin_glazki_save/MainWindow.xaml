@@ -19,6 +19,5 @@
         <TextBlock Text="Глазки" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30"/>
         <Frame Grid.Row="1" Name="MainFrame" ContentRendered="MainFrame_ContentRendered" NavigationUIVisibility="Hidden"></Frame>
         <Button Content="Back" Name="BtnBack" Width="175" Height="30" HorizontalAlignment="Right" Margin="5" Click="BtnBack_Click"></Button>
-    
     </Grid>
 </Window>

@@ -23,8 +23,10 @@ namespace Zianberdin_glazki_save
         public ProductPage1()
         {
             InitializeComponent();
-            var currentProducts = Zianberdin_saveEntities.GetContext().Agent.ToList();
+            var currentProducts = ZianberdinGlazkiSaveEntities.GetContext().Agent.ToList();
             ServiceListView.ItemsSource = currentProducts;
+            ComboType.SelectedIndex = 0;
+            LoadData();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -34,7 +36,8 @@ namespace Zianberdin_glazki_save
 
         private void UpdateAgents()
         {
-            var context = Zianberdin_saveEntities.GetContext();
+            LoadData();
+            var context = ZianberdinGlazkiSaveEntities.GetContext();
             var currentAgents = context.Agent.ToList();
 
             
@@ -60,8 +63,6 @@ namespace Zianberdin_glazki_save
                         
                         if (a.Phone.Contains(searchText))
                             return true;
-
-                        
                         if (!string.IsNullOrEmpty(digitsOnlySearch))
                         {
                             var cleanPhone = new string(a.Phone.Where(char.IsDigit).ToArray());
@@ -112,6 +113,57 @@ namespace Zianberdin_glazki_save
 
             
             ServiceListView.ItemsSource = currentAgents;
+        }
+        int _currentPage = 1;
+        int _maxPage = 0;
+        int _pageSize = 10;
+        List<Agent> _allAgents;
+
+        void LoadData()
+        {
+            _allAgents = ZianberdinGlazkiSaveEntities.GetContext().Agent.ToList();
+            _maxPage = (int)Math.Ceiling(_allAgents.Count / (double)_pageSize);
+            UpdatePage();
+        }
+
+        void UpdatePage()
+        {
+            //показ текущ стр
+            int skip = (_currentPage - 1) * _pageSize;
+            ServiceListView.ItemsSource = _allAgents.Skip(skip).Take(_pageSize).ToList();
+
+            PageButtonsPanel.Children.Clear();
+            for (int i = 1; i <= _maxPage; i++)
+            {
+                Button btn = new Button() { Content = i, Width = 30, Margin = new Thickness(3) };
+                if (i == _currentPage)
+                    btn.Background = Brushes.LightBlue;
+                int pageNum = i;
+                btn.Click += (s, e) => { _currentPage = pageNum; UpdatePage(); };
+
+                PageButtonsPanel.Children.Add(btn);
+            }
+
+            PrevButton.IsEnabled = _currentPage > 1;
+            NextButton.IsEnabled = _currentPage < _maxPage;
+        }
+
+        private void PrevButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_currentPage > 1)
+            {
+                _currentPage--;
+                UpdatePage();
+            }
+        }
+
+        private void NextButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_currentPage < _maxPage)
+            {
+                _currentPage++;
+                UpdatePage();
+            }
         }
 
         private void TBoxSearch_TextChanged(object sender, TextChangedEventArgs e)
